@@ -19,6 +19,11 @@ def FindAllGamePaths(source):
 
     return game_paths
 
+def CopyAndOverwrite(source, dest_path):
+    if os.path.exists(dest_path):
+        shutil.rmtree(dest_path)
+    shutil.copytree(source, dest_path)
+
 def CreateNewDir(path):
     if not os.path.exists(path):
         os.mkdir(path)
@@ -44,6 +49,9 @@ def Main(source, target):
     print(new_game_dirs)
 
     CreateNewDir(target_path)
+    for source, dest in zip(game_paths, new_game_dirs):
+        dest_path = os.path.join(target_path, dest)
+        CopyAndOverwrite(source, dest_path)
 
 
 if __name__ == "__main__":
